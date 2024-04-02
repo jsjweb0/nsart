@@ -74,6 +74,33 @@ $(document).ready(function () {
 		$('.hdShare').closest('div').removeClass('active');
 		$('.hdShare').siblings('.shareList').fadeOut(200);
 	});
+	
+	var $locBtn = $('.locBtn');
+	$locBtn.on('click', function () {
+		var $navBtn = $(this);
+		var $navTarget = $navBtn.closest('li').find('div');
+		if ($navTarget.is(':hidden')) {
+			$locBtn.removeClass('active');
+			$locBtn.closest('li').find('div').hide();
+			$navBtn.addClass('active');
+			$navTarget.slideDown();
+		} else {
+			$navBtn.removeClass('active');
+			$navTarget.hide();
+		}
+		$(window).resize(function () {
+			if ($('.btnMoGnb').is(':hidden')) {
+				$locBtn.closest('li').find('div').removeAttr('style');
+			}
+		});
+	});
+	$('.locationTab').on('mouseleave', function () {
+		$locBtn.removeClass('active');
+		$locBtn.closest('li').find('div').removeAttr('style');
+	});
+	$('.btnPrint>button').click(function () {
+		window.print();
+	});
 
 	// 상단 메뉴에서 포커스 벗어났을 시 처리
 	$(document).find(':focusable').focus(function (e) {
@@ -83,6 +110,9 @@ $(document).ready(function () {
 			} else {
 				$gnb.find('.moGnbClose button').click();
 			}
+		}
+		if ($('.locationTab div').has(e.target).length === 0) {
+			$('.locationTab').mouseleave();
 		}
 	});
 
@@ -108,15 +138,6 @@ $(document).ready(function () {
 			return false;
 		}
 	});
-
-	// 유관기관
-	$(".btnSiteList button").on("click", function(){
-		$(this).toggleClass("active");
-		$(".ftSiteWrap").find(".ftSite").slideToggle();
-	});
-
-
-
 
 });
 
